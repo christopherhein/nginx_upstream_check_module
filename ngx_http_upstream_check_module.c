@@ -2987,7 +2987,7 @@ ngx_http_upstream_check_status_json_format(ngx_buf_t *b,
     b->last = ngx_snprintf(b->last, b->end - b->last,
             "{\"servers\": {\n"
             "  \"total\": %ui,\n"
-            "  \"generation\": %ui,\n"
+            "  \"version\": %ui,\n"
             "  \"server\": [\n",
             count,
             ngx_http_upstream_check_shm_generation);
@@ -3009,23 +3009,13 @@ ngx_http_upstream_check_status_json_format(ngx_buf_t *b,
         }
 
         b->last = ngx_snprintf(b->last, b->end - b->last,
-                "    {\"index\": %ui, "
-                "\"upstream\": \"%V\", "
-                "\"name\": \"%V\", "
+                "    {\"service\": \"%V\", "
                 "\"status\": \"%s\", "
-                "\"rise\": %ui, "
-                "\"fall\": %ui, "
-                "\"type\": \"%V\", "
-                "\"port\": %ui}"
+                "\"type\": \"%V\"}"
                 "%s\n",
-                i,
                 peer[i].upstream_name,
-                &peer[i].peer_addr->name,
                 peer[i].shm->down ? "down" : "up",
-                peer[i].shm->rise_count,
-                peer[i].shm->fall_count,
                 &peer[i].conf->check_type_conf->name,
-                peer[i].conf->port,
                 (i == last) ? "" : ",");
     }
 
