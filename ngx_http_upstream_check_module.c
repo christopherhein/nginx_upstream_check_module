@@ -2985,10 +2985,11 @@ ngx_http_upstream_check_status_json_format(ngx_buf_t *b,
     }
 
     b->last = ngx_snprintf(b->last, b->end - b->last,
-            "{\"servers\": {\n"
+            "{\n"
             "  \"total\": %ui,\n"
             "  \"version\": %ui,\n"
-            "  \"server\": [\n",
+            "  \"_embedded\": {"
+            "  \"servers\": [\n",
             count,
             ngx_http_upstream_check_shm_generation);
 
@@ -3023,6 +3024,11 @@ ngx_http_upstream_check_status_json_format(ngx_buf_t *b,
             "  ]\n");
 
     b->last = ngx_snprintf(b->last, b->end - b->last,
+            "},\n"
+            "\"_links\": {\n"
+            "\"self\": {\n"
+            "\"href\":\"https://api.sproutling.com/v1/status\"\n"
+            "}\n"
             "}}\n");
 }
 
